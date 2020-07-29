@@ -13,13 +13,13 @@ import com.ms.silverking.numeric.NumConversion;
  * Reads/writes PartialKeyCuckoo maps (which are RAM-base.)
  */
 public class PKCReaderWriter {
-    private final ValueTableReaderWriter    vtReaderWriter;
-    
-    public static final int    overheadBytes = NumConversion.BYTES_PER_INT * 4; 
-    
-    public PKCReaderWriter(ValueTableReaderWriter vtReaderWriter) {
-        this.vtReaderWriter = vtReaderWriter;
-    }
+  private final ValueTableReaderWriter vtReaderWriter;
+
+  public static final int overheadBytes = NumConversion.BYTES_PER_INT * 4;
+
+  public PKCReaderWriter(ValueTableReaderWriter vtReaderWriter) {
+    this.vtReaderWriter = vtReaderWriter;
+  }
     
     /*
     public int getSerializedSizeBytes(PartialKeyCuckoo map) {

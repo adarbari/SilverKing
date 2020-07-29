@@ -20,10 +20,10 @@ public class OpTimeoutStateTest {
     private static final int opSizeBasedTimeoutController_defaultMaxAttempts                             = 4;
     private static final int opSizeBasedTimeoutController_defaultExclusionChangeRetryIntervalMS          = 5 * 1000;
     
-    private static final int simpleTimeoutController_getRelativeTimeoutMillisForAttempt                  = int_maxVal;
+    private static final int simpleTimeoutController_getRelativeTimeoutMillisForAttempt                  = 2 * 60 * 1000;
     private static final int simpleTimeoutController_defaultMaxRelativeTimeoutMillis                     = 2 * 60 * 1000;
     private static final int simpleTimeoutController_defaultMaxAttempts                                  = 5;
-    private static final int simpleTimeoutController_getRelativeExclusionChangeRetryMillisForAttempt     = int_maxVal;
+    private static final int simpleTimeoutController_getRelativeExclusionChangeRetryMillisForAttempt     = 2 * 60 * 1000;
     
     private static final int waitForTimeoutController_defaultInternalRetryIntervalSeconds                = 20 * 1000;
     private static final int waitForTimeoutController_defaultMaxAttempts                                 = int_maxVal;
@@ -107,7 +107,7 @@ public class OpTimeoutStateTest {
             {opSizeBasedTimeoutState, (long)opSizeBasedTimeoutController_defaultNonKeyedOpMaxRelTimeout_ms,   false},
             {opSizeBasedTimeoutState, (long)opSizeBasedTimeoutController_defaultNonKeyedOpMaxRelTimeout_ms+1,  true},
             {simpleTimeoutState,      zeroTimeMillis,                                                         false},
-            {simpleTimeoutState,      (long)simpleTimeoutController_getRelativeTimeoutMillisForAttempt,       true},
+            {simpleTimeoutState,      (long)simpleTimeoutController_getRelativeTimeoutMillisForAttempt,       false},
             {simpleTimeoutState,      (long)simpleTimeoutController_getRelativeTimeoutMillisForAttempt+1,      true},
             {waitForTimeoutState,     zeroTimeMillis,                                                         false},
             {waitForTimeoutState,     (long)waitForTimeoutController_defaultInternalRetryIntervalSeconds,     false},
@@ -130,7 +130,7 @@ public class OpTimeoutStateTest {
             {opSizeBasedTimeoutState, (long)opSizeBasedTimeoutController_defaultExclusionChangeRetryIntervalMS,            false},
             {opSizeBasedTimeoutState, (long)opSizeBasedTimeoutController_defaultExclusionChangeRetryIntervalMS+1,           true},
             {simpleTimeoutState,      zeroTimeMillis,                                                                      false},
-            {simpleTimeoutState,      (long)simpleTimeoutController_getRelativeExclusionChangeRetryMillisForAttempt,       true},
+            {simpleTimeoutState,      (long)simpleTimeoutController_getRelativeExclusionChangeRetryMillisForAttempt,       false},
             {simpleTimeoutState,      (long)simpleTimeoutController_getRelativeExclusionChangeRetryMillisForAttempt+1,      true},
             {waitForTimeoutState,     zeroTimeMillis,                                                                      false},
             {waitForTimeoutState,     (long)waitForTimeoutController_defaultExclusionChangeInternalRetryIntervalSeconds,   false},

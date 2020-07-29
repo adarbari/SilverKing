@@ -7,12 +7,13 @@ import com.ms.silverking.io.FileUtil;
 import com.ms.silverking.util.PropertiesHelper;
 import com.ms.silverking.util.PropertiesHelper.UndefinedAction;
 
-import static com.ms.silverking.cloud.dht.client.crypto.EncrypterDecrypter.keyFilePropertyName;;
+import static com.ms.silverking.cloud.dht.client.crypto.EncrypterDecrypter.keyFilePropertyName;
 
 public class Util {
 
-    public static byte[] getBytesFromKeyFile() throws IOException {
-        return FileUtil.readFileAsBytes(new File(PropertiesHelper.systemHelper.getString(keyFilePropertyName, UndefinedAction.ExceptionOnUndefined)));
-    }
-    
+  public static byte[] getBytesFromKeyFile() throws IOException {
+    return FileUtil.readFileAsBytes(
+        new File(PropertiesHelper.systemHelper.getString(keyFilePropertyName, UndefinedAction.ExceptionOnUndefined)));
+  }
+
 }

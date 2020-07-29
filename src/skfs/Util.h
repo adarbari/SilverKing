@@ -40,7 +40,6 @@ typedef enum {LOG_ERROR, LOG_WARNING, LOG_OPS, LOG_INFO, LOG_FINE} LogLevel;
 // public globals
 
 extern char zeroBlock[SRFS_BLOCK_SIZE];
-extern uint64_t    myValueCreator;
 
 
 /////////////////////
@@ -94,8 +93,8 @@ void spinlock_init(pthread_spinlock_t *spinlock, pthread_spinlock_t **spinlockPt
 void cv_init(pthread_cond_t *cv, pthread_cond_t **cvPtr);
 void mutex_destroy(pthread_mutex_t **mutexPtr);
 void cv_destroy(pthread_cond_t **cvPtr);
-void cv_wait_rel(pthread_mutex_t *mutex, pthread_cond_t *cv, uint64_t interval);
-void cv_wait_abs(pthread_mutex_t *mutex, pthread_cond_t *cv, uint64_t deadline);
+int cv_wait_rel(pthread_mutex_t *mutex, pthread_cond_t *cv, uint64_t interval);
+int cv_wait_abs(pthread_mutex_t *mutex, pthread_cond_t *cv, uint64_t deadline);
 
 unsigned int stringHash(void *s);
 int suffixMatches(const char *s, const char *suffix);
@@ -146,7 +145,7 @@ void bytesToString(char *dest, unsigned char *src, int length);
 time_t epoch_time_seconds();
 int msleep(uint64_t millis);
 void sleep_random_millis(uint64_t minMillis, uint64_t maxMillis, unsigned int *seedp);
-void cond_timedwait_random_millis(pthread_cond_t *cond, pthread_mutex_t *mutex, 
+int cond_timedwait_random_millis(pthread_cond_t *cond, pthread_mutex_t *mutex, 
                                   uint64_t minMillis, uint64_t maxMillis, unsigned int *seedp);
 
 uint64_t offsetToBlock(off_t offset);

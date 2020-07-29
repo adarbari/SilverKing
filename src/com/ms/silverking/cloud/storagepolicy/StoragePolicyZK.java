@@ -16,44 +16,44 @@ import com.ms.silverking.cloud.toporing.meta.MetaPaths;
 
 public class StoragePolicyZK extends MetaToolModuleBase<StoragePolicyGroup, MetaPaths> {
 
-    public StoragePolicyZK(MetaClientBase<MetaPaths> mc) throws KeeperException {
-        super(mc, mc.getMetaPaths().getStoragePolicyGroupPath());
-    }
+  public StoragePolicyZK(MetaClientBase<MetaPaths> mc) throws KeeperException {
+    super(mc, mc.getMetaPaths().getStoragePolicyGroupPath());
+  }
 
-    @Override
-    public StoragePolicyGroup readFromFile(File file, long version) throws IOException {
-        return new PolicyParser().parsePolicyGroup(file, version);
-    }
+  @Override
+  public StoragePolicyGroup readFromFile(File file, long version) throws IOException {
+    return new PolicyParser().parsePolicyGroup(file, version);
+  }
 
-    @Override
-    public StoragePolicyGroup readFromZK(long version, MetaToolOptions options) throws KeeperException {
-        try {
-            String          vPath;
-            
-            vPath = getVersionPath(version);
-            return new PolicyParser().parsePolicyGroup(zk.getString(vPath), version);
-        } catch (PolicyParseException ppe) {
-            throw new RuntimeException(ppe);
-        }
-    }
+  @Override
+  public StoragePolicyGroup readFromZK(long version, MetaToolOptions options) throws KeeperException {
+    try {
+      String vPath;
 
-    @Override
-    public void writeToFile(File file, StoragePolicyGroup policyGroup) throws IOException {
-        BufferedWriter  writer;
-        
-        writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-        writer.write(policyGroup.getPolicy(policyGroup.getName()).toString());
-        for (StoragePolicy policy : policyGroup.getPolicies()) {
-            if (!policy.getName().equals(policyGroup.getName())) {
-                writer.write(policy.toString());
-            }
-        }
-        writer.close();
+      vPath = getVersionPath(version);
+      return new PolicyParser().parsePolicyGroup(zk.getString(vPath), version);
+    } catch (PolicyParseException ppe) {
+      throw new RuntimeException(ppe);
     }
+  }
 
-    @Override
-    public String writeToZK(StoragePolicyGroup policyGroup, MetaToolOptions options) throws IOException, KeeperException {
-        zk.createString(base +"/" , policyGroup.toString(), CreateMode.PERSISTENT_SEQUENTIAL);
-        return null;
+  @Override
+  public void writeToFile(File file, StoragePolicyGroup policyGroup) throws IOException {
+    BufferedWriter writer;
+
+    writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+    writer.write(policyGroup.getPolicy(policyGroup.getName()).toString());
+    for (StoragePolicy policy : policyGroup.getPolicies()) {
+      if (!policy.getName().equals(policyGroup.getName())) {
+        writer.write(policy.toString());
+      }
     }
+    writer.close();
+  }
+
+  @Override
+  public String writeToZK(StoragePolicyGroup policyGroup, MetaToolOptions options) throws IOException, KeeperException {
+    zk.createString(base + "/", policyGroup.toString(), CreateMode.PERSISTENT_SEQUENTIAL);
+    return null;
+  }
 }

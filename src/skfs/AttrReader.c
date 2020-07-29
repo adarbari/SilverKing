@@ -653,7 +653,7 @@ static void ar_process_native_request(void *_requestOpRef, int curThreadIndex) {
         tmpStat.st_nlink = FA_NATIVE_LINK_MAGIC;
         fa = fa_new_native(&tmpStat);
         ao_set_complete(op, AOResult_Success, fa, sizeof(FileAttr));
-        ar_store_attr_in_cache(arr, fa, curSKTimeNanos());
+        cacheStoreResult = ar_store_attr_in_cache(arr, fa, curSKTimeNanos());
         if (cacheStoreResult != CACHE_STORE_SUCCESS) {
             srfsLog(LOG_WARNING, "cacheStoreResult != CACHE_STORE_SUCCESS  %d  %s  %s %d", cacheStoreResult, arr->path, __FILE__, __LINE__);
         }
@@ -838,7 +838,7 @@ void ar_create_alias_dirs(AttrReader *ar, OpenDirTable *odt) {
     srfsLog(LOG_INFO, "ar_create_alias_dirs");
     for (i = 0; i < ar->numNFSAliases; i++) {
         srfsLog(LOG_INFO, "create alis dir %s", ar->nfsLocalAliases[i]);
-        if (odt_add_entry(odt, SKFS_BASE, (ar->nfsLocalAliases[i] + 1))) { // +1 is to skip the leading slash, which entries do not contain
+        if (odt_add_entry(odt, SKFS_BASE, (ar->nfsLocalAliases[i] + 1), 0)) { // +1 is to skip the leading slash, which entries do not contain
             srfsLog(LOG_WARNING, "Couldn't create new entry in parent for %s", ar->nfsLocalAliases[i]);
             fatalError("Couldn't create dir", __FILE__, __LINE__);
         }
